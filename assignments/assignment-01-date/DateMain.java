@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class DateMain {
     public static void main(String[] args) {
 
@@ -51,14 +53,18 @@ public class DateMain {
         // Operation methods test
         System.out.println(ANSI_YELLOW + "<< Operations tests: >>" + ANSI_RESET);
         System.out.println();
+        date = new Date(29,7,2017);
 
-        int days = 40, months = 3, years = 2;
-        Date anotherDate = new Date(4,5,2019);
-        date = new Date(2,3,2019);
+        // add days
+        int[] testDays = {40, 800, 50000, 1000000, -5, -100, -700, -11000, -250000};        
+        for(int days : testDays) {
+            System.out.println("add days: " + "(29-7-2017): " + days);
+            date.addDays(days);
+            System.out.println(date);
+            System.out.println("=========\n");
 
-        System.out.println("diffrence date:" + "4,5,2019 & 2,3,2019");
-        System.out.println(date.diffrence(anotherDate));
-        System.out.println("=========\n");
-        
+            date = new Date(29,7,2017);
+        }
+
     }
 }

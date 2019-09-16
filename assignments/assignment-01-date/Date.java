@@ -66,17 +66,27 @@ public class Date implements Comparable<Date> {
         return this.year;
     }
 
-    // diffrence method
-    // TODO...
-
     // add-days method
-    // TODO...
+    public void addDays(int days) {
+        int remainingDays = days + countDaysOfThisYear();
 
-    // add-months method
-    // TODO...
-    
+        int[] countYearsMethodResult = countYearsInDays(remainingDays, this.getYear());
+        this.setYear(countYearsMethodResult[0]);
+        remainingDays = countYearsMethodResult[1];
+
+        int[] countMonthMethodResult = countMonthsInDays(remainingDays, this.getYear());
+        this.setMonth(countMonthMethodResult[0]);
+        remainingDays = countMonthMethodResult[1];
+
+        this.setDay(remainingDays);
+
+    }
+
     // add-years method
-    // TODO...
+    public void addYears(int years) {
+        int result = this.getYear() + years;
+        setYear(result);
+    }
 
     // toString method to pattern "dd-mm-yyyy"
     @Override
@@ -151,7 +161,7 @@ public class Date implements Comparable<Date> {
     }
 
     // ==========================
-    // utils methods
+    // utils methods://
 
     // return max days of a month
     private int maxDaysOfMonth(int month) {
@@ -198,6 +208,83 @@ public class Date implements Comparable<Date> {
         int month = Integer.parseInt(splitedStrDate[1]);
         int year = Integer.parseInt(splitedStrDate[2]);
         return new Date(day, month, year);
+    }
+
+    // count days of this year
+    private int countDaysOfThisYear() {
+        int result = 0;
+        ArrayList<Integer> months = createMonthsArrayList(this.getMonth());
+        result += sumDaysFromMonths(months, this.getYear());
+        result += this.getDay();
+        
+        return result;
+    }
+
+    // summation fo days in months
+    private int sumDaysFromMonths(ArrayList<Integer> months, int year) {
+        int sum = 0;
+        months.remove(months.size()-1);
+        for (int month : months) {
+            sum += maxDaysOfMonth(month);
+        }
+        return sum;
+    }
+
+    // return number of years in days and reminder days
+    private int[] countYearsInDays(int days, int startYear) {
+        final int DAYS_IN_400_YEARS = 365 * 400 + 97;
+        final int DAYS_IN_100_YEARS = 365 * 100 + 24;
+        final int DAYS_IN_4_YEARS = 365 * 4 + 1;
+        final int DAYS_IN_1_YEAR = 365;
+
+        int years = startYear;
+        int remainingDays = days;
+
+        years += (remainingDays / DAYS_IN_400_YEARS) * 400;
+        remainingDays = remainingDays % DAYS_IN_400_YEARS;
+
+        years += (remainingDays / DAYS_IN_100_YEARS) * 100;
+        remainingDays = remainingDays % DAYS_IN_100_YEARS;
+
+        years += (remainingDays / DAYS_IN_4_YEARS) * 4;
+        remainingDays = remainingDays % DAYS_IN_4_YEARS;
+
+        years += (remainingDays / DAYS_IN_1_YEAR);
+        remainingDays = remainingDays % DAYS_IN_1_YEAR;
+
+        // if days are negative (subtraction instead of addition)
+        if(remainingDays < 0) {
+            remainingDays += (isLeapYear(years)? 366 : 365);
+            years--;
+        }
+
+        return new int[] { years, remainingDays };
+    }
+    
+    // return number of days between first month (aka jan) and given month
+    private int[] countMonthsInDays(int days, int year) {
+        int remainingDays = days;
+        int months = 1;
+
+        while(true) {
+            int daysOfMonth = maxDaysOfMonth(months);
+            if(remainingDays <= daysOfMonth) {
+                break;
+            } else {
+                months++;
+                remainingDays -= daysOfMonth;
+            }
+        }
+        return new int[] { months, remainingDays };
+    }
+
+    // take the month return ArrayList of months up to given month
+    private ArrayList<Integer> createMonthsArrayList(int lastMonth) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (int month = 1; month <= lastMonth; ++month) {
+            result.add(month);
+        }
+        return result;
     }
 
 }
