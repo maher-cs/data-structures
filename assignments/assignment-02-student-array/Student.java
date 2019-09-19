@@ -12,7 +12,7 @@ public class Student implements Comparable<Student> {
     private static int idCounter;
 
     // default constructor
-    public Studnet() {
+    public Student() {
         this.setName("NO_NAME");
         this.setId();
         this.setMark(0);
