@@ -1,93 +1,80 @@
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class UniversityClient {
-    private static Student[] students;
-    public static void main(String[] args) {
 
-        Scanner in = new Scanner(System.in);
+    // class attributes
+    private String name;
+    private Student[] students;
 
-        System.out.println("Welcome to University Students Program:");
-        System.out.println("input 1: for entering student manualy.");
-        System.out.println("input 2: for get random marks.");
-        System.out.print(">>> ");
-        byte choice = in.nextByte();
-
-        if(choice != 1 && choice != 2) {
-            System.err.println("invalid choice number!");
-            return;
-        }
-
-        System.out.print("Enter the number of students: ");
-        int numberOfStudents = in.nextInt();
-
-        students = new Student[numberOfStudents];
-        createStudentsObjects();
-
-        switch(choice) {
-            case 1:
-                enterMarks();
-                break;
-            case 2:
-                createRandomMarks();
-                break;
-        }
-
-        System.out.println("\n===========\n");
-
-        Arrays.sort(students);
-
-        claculateAllAndPrint();
-
+    // constructors
+    public UniversityClient() {
+        this.setName("NO_NAME");
+    }
+    public UniversityClient(int numberOfStudents) {
+        this.setName("NO_NAME");
+        this.setNumberOfStudents(numberOfStudents);
+    }
+    public UniversityClient(String name, int numberOfStudents) {
+        this.setName(name);
+        this.setNumberOfStudents(numberOfStudents);
     }
 
-    // ## claculate method
-    private static void claculateAllAndPrint() {
-        System.out.println("Statistics: ");
+    // setters
+    public void setName(String name) {
+        if(isValidName(name)) {
+            this.name = name;
+        } else {
+            this.name = "NO_NAME";
+            System.err.println("invalid name: " + name + "!");
+        }
+    }
+    public void setNumberOfStudents(int numberOfStudents) {
+        this.students = new Student[numberOfStudents];
+        this.createStudentsObjects();
+    }
 
+    // getters
+    public String getName() {
+        return this.name;
+    }
+    public int getNumberOfStudents() {
+        return this.students.length;
+    }
+
+     // ## fill marks method with immutibilty
+    public void fillStudentsMarks(int[] studentsMarks) {
+        for(int i = 0; i < studentsMarks.length; i++) {
+            this.students[i].setMark(studentsMarks[i]);
+        }
+        this.sortStudentsByMark();
+    }
+
+    // ## report method
+    public String createReport() {
         String output = "";
-        output += "number of students: " + students.length + "\n";
+        output += "number of students: " + getNumberOfStudents() + "\n";
         output += String.format("avarage: %.2f\n", getAvarageOfMarks() );
         output += "number of faild students: " + getNumberOfFaildStudents() + "\n";
         output += "number of students above the avarage: " + getNumberOfAboveMark((int) getAvarageOfMarks()) + "\n";
         output += "max mark: " + getMaxMark().getMark() + "\n";
         output += "min mark: " + getMinMark().getMark() + "\n";
 
-        System.out.println(output);
-        
-    }
-
-    // ## fill data methods
-
-    private static void enterMarks() {
-        Scanner in = new Scanner(System.in);
-        
-        for(Student student : students) {
-            System.out.print("Enter mark for " + student.getId() + " student: ");
-            student.setMark(in.nextInt());
-        }
-    }
-
-    private static void createRandomMarks() {
-        for(Student student : students) {
-            student.setMark( (int) (Math.random() * 101) );
-            System.out.println("mark for " + student.getId() + " student: " + student.getMark());
-        }
+        return output;
     }
 
     // ## operations methods
 
-    private static double getAvarageOfMarks() {
-        double avarage = getMarksSum() / (double) students.length;
+    private double getAvarageOfMarks() {
+        double avarage = getMarksSum() / (double) getNumberOfStudents();
         return avarage;
     }
 
-    private static int getNumberOfFaildStudents() {
-        int faild = students.length - getNumberOfAboveMark(Student.PASS_MARK - 1);
+    private int getNumberOfFaildStudents() {
+        int faild = getNumberOfStudents() - getNumberOfAboveMark(Student.PASS_MARK - 1);
         return faild;
     }
 
-    private static int getNumberOfAboveMark(int mark) {
+    private int getNumberOfAboveMark(int mark) {
         int counter = 0;
         for(Student student : students) {
             if(student.getMark() > mark)
@@ -96,7 +83,7 @@ public class UniversityClient {
         return counter;
     }
 
-    private static int getMarksSum() {
+    private int getMarksSum() {
         int sum = 0;
         for(Student student : students) {
             sum += student.getMark();
@@ -104,17 +91,37 @@ public class UniversityClient {
         return sum;
     }
 
-    private static Student getMaxMark() {
-        return students[students.length - 1];
+    private Student getMaxMark() {
+        return students[getNumberOfStudents() - 1];
     }
 
-    private static Student getMinMark() {
+    private Student getMinMark() {
         return students[0];
     }
 
-    private static void createStudentsObjects() {
-        for(int i = 0; i < students.length; i++) {
+    // ## utils methods
+    private void sortStudentsByMark() {
+        Arrays.sort(students);
+    }
+
+    private void createStudentsObjects() {
+        for(int i = 0; i < getNumberOfStudents(); i++) {
             students[i] = new Student();
         }
+    }
+
+    // ## validation methods
+    private boolean isValidName(String name) {
+        final int MAX_LENGHT = 56;
+        final int MIN_LENGTH = 3;
+        if(name.length() < MIN_LENGTH) {
+            System.err.println("the name " + name + " is too short!");
+            return false;
+        }
+        if(name.length() > MAX_LENGHT) {
+            System.err.println("the name " + name + " is too long!");
+            return false;
+        }
+        return true;
     }
 }
