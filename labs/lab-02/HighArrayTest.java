@@ -1,6 +1,6 @@
 /*
  * UQU - CIS - Data sturctures - 1441
- * Assignment 2
+ * Lab 2
  * MHD Maher Azkoul - 438017578
  * Test class
  */
