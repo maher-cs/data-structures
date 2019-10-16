@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 public class HighArray<E> {
 
     // class attributes
@@ -42,7 +44,7 @@ public class HighArray<E> {
     // return array of elements
     public E[] toArray() {
         E[] output = (E[]) new Object[this.nElements];
-        for(int i = 0; i < this.nElements; i++) {
+        for (int i = 0; i < this.nElements; i++) {
             output[i] = this.array[i];
         }
         return output;
@@ -66,7 +68,7 @@ public class HighArray<E> {
     // some methods behavior [insertList()]
     public int insert(E element) {
         boolean isInserted = insertAt(this.nElements, element);
-        if(!isInserted)
+        if (!isInserted)
             return -1;
 
         return this.nElements;
@@ -90,7 +92,7 @@ public class HighArray<E> {
     public boolean insertAt(int index, E element) {
         if (!this.isValidIndex(index) || !thereIsCapacity(this.nElements))
             return false;
-        
+
         this.shiftRight(index, 1);
         this.array[index] = element;
         this.nElements++;
@@ -108,8 +110,8 @@ public class HighArray<E> {
     // WARNING: overriding this method in a child class may change
     // some methods behavior [remove()]
     public int find(E element) {
-        for(int i = 0; i < this.nElements; i++) {
-            if(element.equals(this.array[i]))
+        for (int i = 0; i < this.nElements; i++) {
+            if (element.equals(this.array[i]))
                 return i;
         }
         return -1;
@@ -119,8 +121,8 @@ public class HighArray<E> {
     public int[] findAll(E element) {
         int[] indexes = new int[this.nElements + 1];
         int indexesCounter = 0;
-        for(int i = 0; i < this.nElements; i++) {
-            if(element.equals(this.array[i]))
+        for (int i = 0; i < this.nElements; i++) {
+            if (element.equals(this.array[i]))
                 indexes[indexesCounter++] = i;
         }
         indexes[indexesCounter] = -1;
@@ -129,8 +131,8 @@ public class HighArray<E> {
 
     // findLast method: return last index of given element
     public int findLast(E element) {
-        for(int i = this.nElements - 1; i >= 0; i--) {
-            if(element.equals(this.array[i]))
+        for (int i = this.nElements - 1; i >= 0; i--) {
+            if (element.equals(this.array[i]))
                 return i;
         }
         return -1;
@@ -138,7 +140,7 @@ public class HighArray<E> {
 
     // get method: return element for given index
     public E get(int index) {
-        if(!isValidIndex(index) || index >= this.nElements)
+        if (!isValidIndex(index) || index >= this.nElements)
             return null;
         return this.array[index];
     }
@@ -147,11 +149,11 @@ public class HighArray<E> {
     // WARNING: overriding this method in a child class may change
     // some methods behavior [remove()]
     public E removeAt(int index) {
-        if(!isValidIndex(index) || index >= this.nElements)
+        if (!isValidIndex(index) || index >= this.nElements)
             return null;
 
         E element = this.array[index];
-        this.shiftLeft(index+1, 1);
+        this.shiftLeft(index + 1, 1);
         this.nElements--;
         return element;
     }
@@ -176,7 +178,7 @@ public class HighArray<E> {
     public int removeAll(E element) {
         int counter = 0;
         int index;
-        while((index = this.find(element)) != -1) {
+        while ((index = this.find(element)) != -1) {
             this.removeAt(index);
             counter++;
         }
@@ -188,9 +190,9 @@ public class HighArray<E> {
     // the behavior of this method
     public int removeDuplicates() {
         int counter = 0;
-        for(int i = 0; i < this.nElements; i++) {
-            for(int j = 0; j < i; j++) {
-                if(this.array[i].equals(this.array[j])) {
+        for (int i = 0; i < this.nElements; i++) {
+            for (int j = 0; j < i; j++) {
+                if (this.array[i].equals(this.array[j])) {
                     this.removeAt(j);
                     counter++;
                     j--;
@@ -203,12 +205,45 @@ public class HighArray<E> {
 
     // test set method: set value at given position and return old value
     public E set(int index, E element) {
-        if(!isValidIndex(index))
+        if (!isValidIndex(index))
             return null;
         E oldElement = this.get(index);
         this.array[index] = element;
         return oldElement;
     }
+
+    // insert element ordered
+    public void insertOrdered(E value, Comparator<E> c) {
+        int j;
+        for (j = 0; j < this.nElements; j++)
+            if (c.compare(this.array[j], value)> 0)
+                break;
+        for (int k = this.nElements; k > j; k--)
+            this.array[k] = this.array[k - 1];
+        this.array[j] = value;
+        this.nElements++;
+    }
+
+    // binary search
+    public int binarySearch(E searchKey, Comparator<E> c) {
+        int left = 0;
+        int right = this.array.length-1;
+         
+        while (left <= right) {
+            int pivot = (left + right) / 2;
+            if (this.array[pivot].equals(searchKey)) {
+                return pivot;
+            } else {
+                if (c.compare(array[pivot], searchKey) < 0)
+                    left = pivot + 1;
+                else 
+              right = pivot - 1;
+            }
+         }
+         return -1;
+      } 
+
+
 
     // ## private methods ##
     // check if there is capacity
@@ -232,12 +267,11 @@ public class HighArray<E> {
     // shift the elements to the right
     private boolean shiftRight(int start, int shiftAmount) {
         int lastIndex = this.nElements - 1 + shiftAmount;
-        if(!thereIsCapacity(lastIndex) || shiftAmount < 1)
+        if (!thereIsCapacity(lastIndex) || shiftAmount < 1)
             return false;
 
-        
-        for(int i = lastIndex; i > start+shiftAmount-1; i--) {
-            this.array[i] = this.array[i-shiftAmount];
+        for (int i = lastIndex; i > start + shiftAmount - 1; i--) {
+            this.array[i] = this.array[i - shiftAmount];
         }
 
         return true;
@@ -245,10 +279,10 @@ public class HighArray<E> {
 
     // shift the elements to the left
     private boolean shiftLeft(int start, int shiftAmount) {
-        if(!isValidIndex(start - shiftAmount))
+        if (!isValidIndex(start - shiftAmount))
             return false;
 
-        for(int i = start; i < this.nElements; i++) {
+        for (int i = start; i < this.nElements; i++) {
             this.array[i - shiftAmount] = this.array[i];
         }
 
