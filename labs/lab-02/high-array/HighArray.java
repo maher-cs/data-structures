@@ -1,6 +1,6 @@
 import java.util.Comparator;
 
-public class HighArray<E> {
+public class HighArray<E extends Comparable<E>> {
 
     // class attributes
     private E[] array;
@@ -8,7 +8,7 @@ public class HighArray<E> {
 
     // constructor with initial size of array parameter
     public HighArray(int initialSize) {
-        this.array = (E[]) new Object[initialSize];
+        this.array = (E[]) new Comparable[initialSize];
         this.nElements = 0;
     }
 
@@ -17,7 +17,7 @@ public class HighArray<E> {
     // the behavior of this method
     public HighArray(E... elements) {
         int initialSize = (int) (elements.length * 1.5);
-        this.array = (E[]) new Object[initialSize];
+        this.array = (E[]) new Comparable[initialSize];
         this.insertList(elements);
     }
 
@@ -43,7 +43,7 @@ public class HighArray<E> {
 
     // return array of elements
     public E[] toArray() {
-        E[] output = (E[]) new Object[this.nElements];
+        E[] output = (E[]) new Comparable[this.nElements];
         for (int i = 0; i < this.nElements; i++) {
             output[i] = this.array[i];
         }
@@ -58,7 +58,7 @@ public class HighArray<E> {
     // clear the array
     public void clear() {
         this.nElements = 0;
-        this.array = (E[]) new Object[10];
+        this.array = (E[]) new Comparable[10];
     }
 
     // insert new element
@@ -213,10 +213,10 @@ public class HighArray<E> {
     }
 
     // insert element ordered
-    public void insertOrdered(E value, Comparator<E> c) {
+    public void insertOrdered(E value) {
         int j;
         for (j = 0; j < this.nElements; j++)
-            if (c.compare(this.array[j], value)> 0)
+            if (this.array[j].compareTo(value) > 0)
                 break;
         for (int k = this.nElements; k > j; k--)
             this.array[k] = this.array[k - 1];
@@ -225,7 +225,7 @@ public class HighArray<E> {
     }
 
     // binary search
-    public int binarySearch(E searchKey, Comparator<E> c) {
+    public int binarySearch(E searchKey) {
         int left = 0;
         int right = this.array.length-1;
          
@@ -234,7 +234,7 @@ public class HighArray<E> {
             if (this.array[pivot].equals(searchKey)) {
                 return pivot;
             } else {
-                if (c.compare(array[pivot], searchKey) < 0)
+                if (this.array[pivot].compareTo(searchKey) < 0)
                     left = pivot + 1;
                 else 
               right = pivot - 1;
