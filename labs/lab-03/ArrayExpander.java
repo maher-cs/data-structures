@@ -1,11 +1,11 @@
-public class HighArray<E extends Comparable<E>> {
+public class ArrayExpander<E extends Comparable<E>> {
 
     // class attributes
     private E[] array;
     private int nElements;
 
     // constructor with initial size of array parameter
-    public HighArray(int initialSize) {
+    public ArrayExpander(int initialSize) {
         this.array = (E[]) new Comparable[initialSize];
         this.nElements = 0;
     }
@@ -13,8 +13,8 @@ public class HighArray<E extends Comparable<E>> {
     // constructor with values
     // WARNING: overriding insertList() method may change
     // the behavior of this method
-    public HighArray(E... elements) {
-        int initialSize = (int) (elements.length * 1.5);
+    public ArrayExpander(E... elements) {
+        int initialSize = (elements.length * 2);
         this.array = (E[]) new Comparable[initialSize];
         this.insertList(elements);
     }
@@ -219,19 +219,60 @@ public class HighArray<E extends Comparable<E>> {
     }
 
     // binary search
+    public int binarySearch(E searchKey) {
+        this.selectionSort();
+        int left = 0;
+        int right = this.nElements-1;
+        while(left <= right) {
+            int pivot = (left+right)/2;
+            // System.out.println(searchKey + ": left="+left + ", right="+right+", pivot="+pivot);
+            int comp = this.array[pivot].compareTo(searchKey);
+            if(comp == 0) {
+                return pivot;
+            } else if(comp < 0) {
+                left = pivot + 1;
+            } else {
+                right = pivot - 1;
+            }
+        }
+        return -1;
+    }
     
 
     // bubble sort
     public void bubbleSort() {
         for (int i = 0; i < nElements-1; i++) {
-            for (int j = 0; j < nElements-1; j++) {
-                if(this.array[i].compareTo(array[i+1]) > 0) {
-                    E temp = this.array[i];
-                    this.array[i] = this.array[i+1];
-                    this.array[i+1] = temp;
+            for (int j = 0; j < nElements-1-i; j++) {
+                if(this.array[j].compareTo(array[j+1]) > 0) {
+                    E temp = this.array[j];
+                    this.array[j] = this.array[j+1];
+                    this.array[j+1] = temp;
                 }
             }
         }
+    }
+
+    // selection sort
+    public void selectionSort() {
+        for (int i = 0; i < nElements; i++) {
+            E min = this.array[i];
+            int minIndex = i;
+            for (int j = i; j < nElements; j++) {
+                if(this.array[j].compareTo(min) < 0) {
+                    min = this.array[j];
+                    minIndex = j;
+                }
+            }
+            E temp = this.array[i];
+            this.array[i] = min;
+            this.array[minIndex] = temp;
+        }
+    }
+
+    // insertion sort
+    public void insertionSort() {
+        for(int i = 0; i < this.nElements; i++)
+            this.insertOrdered(this.removeAt(i));
     }
 
     // ## private methods ##
@@ -239,9 +280,17 @@ public class HighArray<E extends Comparable<E>> {
     private boolean thereIsCapacity(int index) {
         if (index >= this.array.length) {
             // System.err.println("no capacity!");
-            return false;
+            ensureCapacity();
         }
         return true;
+    }
+
+    private void ensureCapacity() {
+        E[] newArray = (E[]) new Comparable[this.array.length*2];
+        for(int i = 0; i < this.nElements; i++) {
+            newArray[i] = this.array[i];
+        }
+        this.array = newArray;
     }
 
     // check if index is valid and connected

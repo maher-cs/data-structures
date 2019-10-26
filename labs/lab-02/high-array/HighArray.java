@@ -246,11 +246,11 @@ public class HighArray<E extends Comparable<E>> {
     // bubble sort
     public void bubbleSort() {
         for (int i = 0; i < nElements-1; i++) {
-            for (int j = 0; j < nElements-1; j++) {
-                if(this.array[i].compareTo(array[i+1]) > 0) {
+            for (int j = 0; j < nElements-1-i; j++) {
+                if(this.array[j].compareTo(array[j+1]) > 0) {
                     E temp = this.array[i];
-                    this.array[i] = this.array[i+1];
-                    this.array[i+1] = temp;
+                    this.array[j] = this.array[j+1];
+                    this.array[j+1] = temp;
                 }
             }
         }
