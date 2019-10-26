@@ -108,12 +108,7 @@ public class HighArray<E extends Comparable<E>> {
     // WARNING: overriding this method in a child class may change
     // some methods behavior [remove()]
     public int find(E element) {
-        for (int i = 0; i < this.nElements; i++) {
-            if (element.equals(this.array[i]))
-                return i;
-        }
-        // return this.binarySearch(element);
-        return -1;
+        return this.binarySearch(element);
     }
 
     // find method: return index of given element
@@ -224,24 +219,7 @@ public class HighArray<E extends Comparable<E>> {
     }
 
     // binary search
-    public int binarySearch(E searchKey) {
-        // this.bubbleSort();
-        int left = 0;
-        int right = this.nElements - 1;
-
-        while (left <= right) {
-            int pivot = (left + right) / 2;
-            if (this.array[pivot].equals(searchKey)) {
-                return pivot;
-            } else {
-                if (this.array[pivot].compareTo(searchKey) < 0)
-                    left = pivot + 1;
-                else
-                    right = pivot - 1;
-            }
-        }
-        return -1;
-    }
+    
 
     // bubble sort
     public void bubbleSort() {

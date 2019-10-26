@@ -1,4 +1,4 @@
-public class Person implements Comparable{
+public class Person implements Comparable<Person>{
 
     // class attributes
     protected String name;
@@ -117,5 +117,7 @@ public class Person implements Comparable{
         }
         return true;
     }
+
+
 
 }
