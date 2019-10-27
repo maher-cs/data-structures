@@ -350,7 +350,7 @@ public class ArrayExpanderTest {
         cases[1].hArray.insertFirst(13);
         cases[1].hArray.insertFirst(16);
         cases[1].hArray.insertFirst(19);
-        cases[1].setExpected("[ 16 13 3 5 7 10]");
+        cases[1].setExpected("[ 19 16 13 3 5 7 10]");
         cases[1].setActual(cases[1].hArray.toString());
 
         TestCase.runTests(cases);
@@ -480,7 +480,7 @@ public class ArrayExpanderTest {
         cases[1].hArray.insert(3);
         cases[1].hArray.insert(6);
         cases[1].hArray.insert(6);
-        cases[1].setExpected("[ 5 3]");
+        cases[1].setExpected("[ 5 3 6 6]");
         cases[1].setActual(cases[1].hArray.toString());
 
         TestCase.runTests(cases);
