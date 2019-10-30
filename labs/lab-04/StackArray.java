@@ -31,6 +31,13 @@ public class StackArray<E> {
         return element;
     }
 
+    public E peek() {
+        if(this.isEmpty()) {
+            return null;
+        }
+        return this.array[this.pointer];
+    }
+
     // check if the stack is empty
     // WARNING: overriding this method will affect 
     //  some other methods [pop, peek]

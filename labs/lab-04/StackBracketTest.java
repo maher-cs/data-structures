@@ -2,17 +2,42 @@ import java.util.Scanner;
 
 public class StackBracketTest {
 
-    private final String[] BRACKETS = {"(", ")", "[", "]", "{", "}"};
+    
+
+    // to separate single brackets from double brackets
+    private int LAST_DOUBLE_BRACKET_INDEX;
+    private final String SINGLE_BRACKET_SIGNAL = "2";
+    private final String LAST_DOUBLE_BRACKET = ">";
+
+    private final String[] BRACKETS = {"(", ")", "[", "]", "{", "}", "<", ">", "\"", "\""};
+
     private String expression;
 
     // default constructor
     public StackBracketTest() {
+        this.setLAST_DOUBLE_BRACKET_INDEX();
         this.expression = null;
     }
 
     // constructor with parameters
     public StackBracketTest(String expression) {
+        this.setLAST_DOUBLE_BRACKET_INDEX();
         this.expression = expression;
+    }
+
+    // constructor helper function
+    private void setLAST_DOUBLE_BRACKET_INDEX() {
+        for(int i = 0; i < this.BRACKETS.length; i++) {
+            if(this.BRACKETS[i].equals(this.LAST_DOUBLE_BRACKET)) {
+                this.LAST_DOUBLE_BRACKET_INDEX = i;
+                break;
+            }
+        }
+
+        // modify only odd indexes that are closing bracket indexes
+        for(int i = LAST_DOUBLE_BRACKET_INDEX+2; i < this.BRACKETS.length; i += 2) {
+            this.BRACKETS[i] += 2;
+        }
     }
 
     // setter
@@ -27,6 +52,12 @@ public class StackBracketTest {
 
         for(int i = 0; i < expSize; i++) {
             String bracket = this.expression.charAt(i) + "";
+            if(this.isSingleBracket(bracket)) {
+                // if closing bracket
+                if( theStack.peek() != null && theStack.peek().equals(bracket)) {
+                    bracket += this.SINGLE_BRACKET_SIGNAL;
+                }
+            }
             if(this.isNotBracket(bracket)) {
                 continue;
             } else if (this.isOpeningBracket(bracket)) {
@@ -77,6 +108,10 @@ public class StackBracketTest {
 
     private boolean isOpeningBracket(String bracket) {
         return this.indexOf(bracket) % 2 == 0;
+    }
+
+    private boolean isSingleBracket(String bracket) {
+        return this.indexOf(bracket) > this.LAST_DOUBLE_BRACKET_INDEX;
     }
 
     private boolean isNotBracket(String bracket) {
