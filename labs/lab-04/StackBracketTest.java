@@ -100,7 +100,6 @@ public class StackBracketTest {
 
     private boolean isClosingBracketFor(String open, String close) {
         if(open == null || close == null) {
-            System.out.println("isClosingBracketFor: false");
             return false;
         }
         return ((this.indexOf(open)+1) == this.indexOf(close));

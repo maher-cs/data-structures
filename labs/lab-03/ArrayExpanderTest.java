@@ -42,6 +42,25 @@ public class ArrayExpanderTest {
         testSelectionSort();
         testInsertionSort();
         testExpandingArray();
+        testShrinkinArray();
+    }
+
+    // test shrinkin array
+    public static void testShrinkinArray() {
+        System.out.print("testing shrinkin array...");
+
+        TestCase[] cases = new TestCase[1];
+
+        cases[0] = new TestCase<String>();
+        cases[0].hArray = new ArrayExpander<Integer>(7, 2, 5, 6, 7);
+        cases[0].hArray.removeAt(1);
+        cases[0].hArray.removeAt(1);
+        cases[0].hArray.removeAt(1);
+        cases[0].hArray.removeAt(1);
+        cases[0].setExpected(2);
+        cases[0].setActual(cases[0].hArray.actualSize());
+
+        TestCase.runTests(cases);
     }
 
     // test expanding array
@@ -559,6 +578,7 @@ class TestCase<T> {
         for(int i = 0; i < cases.length; i++) {
             if(!Arrays.equals(cases[i].expected, cases[i].actual)) {
                 System.out.print(TEST_FAIL + (i+1));
+                System.out.println(": " + cases[i].actual);
                 pass = false;
             }
             cases[i] = null;

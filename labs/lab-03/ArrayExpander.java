@@ -53,6 +53,10 @@ public class ArrayExpander<E extends Comparable<E>> {
         return this.nElements;
     }
 
+    public int actualSize() {
+        return this.array.length;
+    }
+
     // clear the array
     public void clear() {
         this.nElements = 0;
@@ -149,6 +153,7 @@ public class ArrayExpander<E extends Comparable<E>> {
         E element = this.array[index];
         this.shiftLeft(index + 1, 1);
         this.nElements--;
+        this.ensureCapacity();
         return element;
     }
 
@@ -225,7 +230,6 @@ public class ArrayExpander<E extends Comparable<E>> {
         int right = this.nElements-1;
         while(left <= right) {
             int pivot = (left+right)/2;
-            // System.out.println(searchKey + ": left="+left + ", right="+right+", pivot="+pivot);
             int comp = this.array[pivot].compareTo(searchKey);
             if(comp == 0) {
                 return pivot;
@@ -286,11 +290,13 @@ public class ArrayExpander<E extends Comparable<E>> {
     }
 
     private void ensureCapacity() {
-        E[] newArray = (E[]) new Comparable[this.array.length*2];
-        for(int i = 0; i < this.nElements; i++) {
-            newArray[i] = this.array[i];
+        if(this.nElements == this.array.length || this.nElements < (this.array.length/2)) {
+            E[] newArray = (E[]) new Comparable[this.nElements*2];
+            for(int i = 0; i < this.nElements; i++) {
+                newArray[i] = this.array[i];
+            }
+            this.array = newArray;
         }
-        this.array = newArray;
     }
 
     // check if index is valid and connected
