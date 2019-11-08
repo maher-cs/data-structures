@@ -27,6 +27,16 @@ public class LinkList<E> implements Iteratable<E> {
         return this.head == null;
     }
 
+    public int size() {
+        int counter = 0;
+        Iterator<E> iter = this.iterator();
+        while(iter.hasNext()) {
+            counter++;
+            iter.next(); 
+        }
+        return counter;
+    }
+
     // return iterator on the list items
     @Override
     public Iterator<E> iterator() {
