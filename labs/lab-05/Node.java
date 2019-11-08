@@ -1,4 +1,4 @@
-public class Node<T> {
+public class Node<E> {
 
     // class attributes
     private E data;
@@ -38,5 +38,11 @@ public class Node<T> {
 
     public Node<E> getNext() {
         return this.next;
+    }
+
+    // to string
+    @Override
+    public String toString() {
+        return "{" + this.getData() + "}";
     }
 }
