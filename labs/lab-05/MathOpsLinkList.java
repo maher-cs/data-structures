@@ -7,6 +7,10 @@ public class MathOpsLinkList {
         this.list = new LinkList<Integer>(list);
     }
 
+    public MathOpsLinkList(LinkList<Integer> list) {
+        this.list = list;
+    }
+
     public Integer sum() {
         Integer result = 0;
 

@@ -58,6 +58,11 @@ public class LinkList<E> implements Iteratable<E> {
         return output;
     }
 
+    // print the list
+    public void displayList() {
+        System.out.println(this.toString());
+    }
+
     // get the first item in the list
     public Node<E> getFirst() {
         if(this.isEmpty())
