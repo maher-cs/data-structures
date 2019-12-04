@@ -29,7 +29,7 @@ public class FirstLastLinkListTest {
 
     }
 
-    // test insert at method
+    // test update at method
     public static void testUpdateIndex() {
         System.out.print("testing update-at method...");
 

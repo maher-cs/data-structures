@@ -186,7 +186,6 @@ public class FirstLastLinkList<E> extends LinkList<E> {
     // check if the given index is in bounds 
     protected void checkIndex(int index) throws IndexOutOfBoundsException {
         if(index < 0 || index >= this.size()) {
-            System.out.println("index: " + index + ", size: " + this.size());
             throw new IndexOutOfBoundsException();
         }
     }
