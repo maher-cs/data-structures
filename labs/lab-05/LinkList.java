@@ -12,12 +12,12 @@ public class LinkList<E> implements Iteratable<E> {
     public LinkList(E... list) {
 
         // if passing empty list
-        if(list == null || list.length <= 0) {
+        if (list == null || list.length <= 0) {
             this.head = null;
             return;
         }
 
-        for(int i = list.length-1; i >= 0; i--) {
+        for (int i = list.length - 1; i >= 0; i--) {
             this.insertFirst(list[i]);
         }
     }
@@ -30,9 +30,9 @@ public class LinkList<E> implements Iteratable<E> {
     public int size() {
         int counter = 0;
         Iterator<E> iter = this.iterator();
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             counter++;
-            iter.next(); 
+            iter.next();
         }
         return counter;
     }
@@ -49,8 +49,8 @@ public class LinkList<E> implements Iteratable<E> {
     public String toString() {
         String output = "";
         Iterator<E> iter = this.iterator();
-        while(iter.hasNext()) {
-            E currentData = iter.next(); 
+        while (iter.hasNext()) {
+            E currentData = iter.next();
             output += " " + currentData;
         }
 
@@ -65,18 +65,18 @@ public class LinkList<E> implements Iteratable<E> {
 
     // get the first item in the list
     public Node<E> getFirst() {
-        if(this.isEmpty())
+        if (this.isEmpty())
             return null;
         return this.head;
     }
 
     // get the last element in the list
     public Node<E> getLast() {
-        if(this.isEmpty())
+        if (this.isEmpty())
             return null;
-        
+
         Node<E> current = this.head;
-        while(current.getNext() != null) {
+        while (current.getNext() != null) {
             current = current.getNext();
         }
         return current;
@@ -86,7 +86,7 @@ public class LinkList<E> implements Iteratable<E> {
     // return old first element
     public E setFirst(Node<E> node) {
         E oldHead = null;
-        if(!this.isEmpty()) {
+        if (!this.isEmpty()) {
             oldHead = this.head.getData();
             node.setNext(this.head.getNext());
         }
@@ -99,7 +99,7 @@ public class LinkList<E> implements Iteratable<E> {
     public E setFirst(E element) {
         E oldHead = null;
         Node<E> node = new Node<E>(element);
-        if(!this.isEmpty()) {
+        if (!this.isEmpty()) {
             oldHead = this.head.getData();
             node.setNext(this.head.getNext());
         }
@@ -116,25 +116,25 @@ public class LinkList<E> implements Iteratable<E> {
 
     // insert after last element in the list
     public void insertLast(E element) {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             this.insertFirst(element);
             return;
         }
-            
+
         Node<E> last = this.getLast();
         last.setNext(new Node<E>(element));
     }
 
     // delete first match element
     public Node<E> delete(E key) {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
-        if(this.head.getData().equals(key)) {
+        if (this.head.getData().equals(key)) {
             return this.deleteFirst();
         }
         Node<E> previosNode = this.findPrevios(key);
-        if(previosNode == null) {
+        if (previosNode == null) {
             return null;
         }
         Node<E> nextNode = previosNode.getNext().getNext();
@@ -144,7 +144,7 @@ public class LinkList<E> implements Iteratable<E> {
 
     // delete head node
     public Node<E> deleteFirst() {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
         Node<E> element = this.head;
@@ -153,10 +153,10 @@ public class LinkList<E> implements Iteratable<E> {
     }
 
     public Node<E> deleteLast() {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
-        if(this.hasOnlyOneElement()) {
+        if (this.hasOnlyOneElement()) {
             return this.deleteFirst();
         }
         Node<E> beforLast = this.getBeforLast();
@@ -164,12 +164,12 @@ public class LinkList<E> implements Iteratable<E> {
     }
 
     public Node<E> find(E element) {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
         Node<E> current = this.head;
-        while(current != null) {
-            if(current.getData().equals(element)) {
+        while (current != null) {
+            if (current.getData().equals(element)) {
                 return current;
             }
             current = current.getNext();
@@ -179,9 +179,9 @@ public class LinkList<E> implements Iteratable<E> {
 
     // ## private utils methods ##
 
-    // delete element by given previos and next node 
+    // delete element by given previos and next node
     protected Node<E> deleteNext(Node<E> node, Node<E> afterNextNode) {
-        if(node == null || node.getNext() == null) {
+        if (node == null || node.getNext() == null) {
             return null;
         }
         Node<E> deletedNode = node.getNext();
@@ -196,13 +196,13 @@ public class LinkList<E> implements Iteratable<E> {
 
     // find and get previos element by given element
     protected Node<E> findPrevios(E element) {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
         Node<E> previos = null;
         Node<E> current = this.head;
-        while(current != null) {
-            if(current.getData().equals(element)) {
+        while (current != null) {
+            if (current.getData().equals(element)) {
                 return previos;
             }
             previos = current;
@@ -213,12 +213,12 @@ public class LinkList<E> implements Iteratable<E> {
 
     // get befor last
     protected Node<E> getBeforLast() {
-        if(this.isEmpty()) {
+        if (this.isEmpty()) {
             return null;
         }
         Node<E> previos = null;
         Node<E> current = this.head;
-        while(current.getNext() != null) {
+        while (current.getNext() != null) {
             previos = current;
             current = current.getNext();
         }
@@ -227,7 +227,7 @@ public class LinkList<E> implements Iteratable<E> {
 
     // return true if size is one
     private boolean hasOnlyOneElement() {
-        return ( (!this.isEmpty()) && this.head.getNext() == null);
+        return ((!this.isEmpty()) && this.head.getNext() == null);
     }
 
 }

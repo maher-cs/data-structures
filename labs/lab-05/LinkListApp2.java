@@ -1,5 +1,5 @@
 
-class LinkListApp2 {
+public class LinkListApp2 {
     public static void main(String[] args) {
         LinkList<Integer> theList = new LinkList<Integer>();
 
