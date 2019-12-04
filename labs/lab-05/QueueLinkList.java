@@ -5,9 +5,7 @@ public class QueueLinkList<E> {
 
     // default constructor with init size parameter
     public QueueLinkList() {
-        this.list = new FirstLastLinkList(list)<E>();
-        this.head = null;
-        this.tail = null;
+        this.list = new FirstLastLinkList<E>();
     }
 
     // push new element to the head of the stack
