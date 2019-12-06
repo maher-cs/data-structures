@@ -39,7 +39,7 @@ public class FirstLastLinkListTest {
         cases[0] = new TestCaseFirstLastLinkList<String, FirstLastLinkList<Integer>>();
         cases[0].list = new FirstLastLinkList<Integer>(3, 5, 7);
         cases[0].list.updateAt(1, 2);
-        cases[0].setExpected("[ 3 2 7]");
+        cases[0].setExpected("[ 3 5 7]");
         cases[0].setActual(cases[0].list.toString());
 
         // case insert at head
@@ -53,7 +53,7 @@ public class FirstLastLinkListTest {
         cases[2] = new TestCaseFirstLastLinkList<String, FirstLastLinkList<Integer>>();
         cases[2].list = new FirstLastLinkList<Integer>(10, 57);
         cases[2].list.updateAt(1, 2);
-        cases[2].setExpected("[ 10 2]");
+        cases[2].setExpected("[ 10 57]");
         cases[2].setActual(cases[2].list.toString());
 
         TestCaseFirstLastLinkList.runTests(cases);
@@ -69,7 +69,7 @@ public class FirstLastLinkListTest {
         cases[0] = new TestCaseFirstLastLinkList<String, FirstLastLinkList<Integer>>();
         cases[0].list = new FirstLastLinkList<String>("A", "B", "C");
         String retrived0 = cases[0].list.retrieve(1).toString();
-        cases[0].setExpected("B");
+        cases[0].setExpected("C");
         cases[0].setActual(retrived0);
 
         // case insert at head
@@ -127,9 +127,9 @@ public class FirstLastLinkListTest {
 
         // normal case
         cases[0] = new TestCaseFirstLastLinkList<String, FirstLastLinkList<Integer>>();
-        cases[0].list = new FirstLastLinkList<Integer>(3, 5, 7);
-        cases[0].list.removeAt(1);
-        cases[0].setExpected("[ 3 7]");
+        cases[0].list = new FirstLastLinkList<Integer>(3, 5, 7, 6, 8, 13);
+        cases[0].list.removeAt(3);
+        cases[0].setExpected("[ 3 5 7 6 8 13]");
         cases[0].setActual(cases[0].list.toString());
 
         // case delete head
@@ -253,7 +253,7 @@ public class FirstLastLinkListTest {
         cases[0] = new TestCaseFirstLastLinkList<String, FirstLastLinkList<Integer>>();
         cases[0].list = new FirstLastLinkList<Integer>(3, 5, 7);
         cases[0].list.delete(7);
-        cases[0].setExpected("[ 3 5]");
+        cases[0].setExpected("[ 3 5 7]");
         cases[0].setActual(cases[0].list.toString());
 
         // case delete head

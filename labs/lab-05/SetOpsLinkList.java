@@ -61,14 +61,16 @@ public class SetOpsLinkList<E> {
 
         LinkList<Integer> union = setOps.union(list1, list2);
         LinkList<Integer> intersection = setOps.intersection(list1, list2);
-        LinkList<Integer> difference = setOps.difference(list1, list2);
+        LinkList<Integer> difference1 = setOps.difference(list1, list2);
+        LinkList<Integer> difference2 = setOps.difference(list2, list1);
 
         System.out.println("list 1: " + list1);
         System.out.println("list 2: " + list2);
         System.out.println("===========");
         System.out.println("union: " + union);
         System.out.println("intersection: " + intersection);
-        System.out.println("difference: " + difference);
+        System.out.println("difference: " + difference1);
+        System.out.println("difference: " + difference2);
     }
 
 }

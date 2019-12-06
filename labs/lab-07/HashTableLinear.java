@@ -29,6 +29,10 @@ public class HashTableLinear<K, V> {
             return -1;
         }
 
+        if (this.find(item.getKey()) != null) {
+            return -2;
+        }
+
         int hashVal = hashFunc(item.getKey(), hashArray.length);
 
         while (hashArray[hashVal] != null) {
